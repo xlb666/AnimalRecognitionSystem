@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-
-# Form implementation generated from reading ui file 'System.ui'
-#
-# Created by: PyQt5 UI code generator 5.13.0
-#
-# WARNING! All changes made in this file will be lost!
 
 
 from PyQt5 import QtCore, QtGui, QtWidgets
@@ -44,8 +37,8 @@ class Ui_Form(object):
         self.label_5.setText("")
         self.label_5.setObjectName("label_5")
         self.startBtn = QtWidgets.QPushButton(Form)
-        self.startBtn.setGeometry(QtCore.QRect(640, 300, 141, 41))
-        self.startBtn.setStyleSheet("font: 16pt \"方正颜宋简体\";")
+        self.startBtn.setGeometry(QtCore.QRect(640, 400, 200, 50))
+        self.startBtn.setStyleSheet("font: 14pt \"方正颜宋简体\";")
         self.startBtn.setObjectName("startBtn")
         self.result = QtWidgets.QLabel(Form)
         self.result.setGeometry(QtCore.QRect(1190, 500, 251, 81))
@@ -64,10 +57,6 @@ class Ui_Form(object):
         self.listView.setGeometry(QtCore.QRect(30, 160, 256, 321))
         self.listView.setStyleSheet("font: 10pt \"方正颜宋简体\";")
         self.listView.setObjectName("listView")
-        self.startBtn_2 = QtWidgets.QPushButton(Form)
-        self.startBtn_2.setGeometry(QtCore.QRect(290, 290, 81, 41))
-        self.startBtn_2.setStyleSheet("font: 16pt \"方正颜宋简体\";")
-        self.startBtn_2.setObjectName("startBtn_2")
         self.update = QtWidgets.QPushButton(Form)
         self.update.setGeometry(QtCore.QRect(610, 520, 171, 41))
         self.update.setStyleSheet("font: 14pt \"方正颜宋简体\";")
@@ -88,6 +77,5 @@ class Ui_Form(object):
         self.startBtn.setText(_translate("Form", "开始推理"))
         self.pushButton.setText(_translate("Form", "添加规则"))
         self.label_6.setText(_translate("Form", "选择动物特征"))
-        self.startBtn_2.setText(_translate("Form", "选择"))
         self.update.setText(_translate("Form", "删除/修改规则"))
 import image_rc
