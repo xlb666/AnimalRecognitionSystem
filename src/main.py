@@ -66,7 +66,7 @@ class MainGUI(QtWidgets.QWidget, Ui_Form):
                 for y in self.TResult:
                     ans += ' ' + y
                 self.procedure.append(' %s' % ans)
-                print(self.__DB__)
+                # print(self.__DB__)
                 flag = True
         return flag
 
