@@ -20,10 +20,10 @@ class Ui_Dialog2(object):
                                    "color: rgb(85, 85, 85);")
         self.label_2.setObjectName("label_2")
         self.PList = QtWidgets.QListView(Dialog)
-        self.PList.setGeometry(QtCore.QRect(80, 120, 256, 331))  # P框
+        self.PList.setGeometry(QtCore.QRect(80, 120, 300, 331))  # P框
         self.PList.setObjectName("PList")
         self.listView_2 = QtWidgets.QListView(Dialog)
-        self.listView_2.setGeometry(QtCore.QRect(460, 120, 256, 331))  # Q框
+        self.listView_2.setGeometry(QtCore.QRect(460, 120, 300, 331))  # Q框
         self.listView_2.setObjectName("listView_2")
         self.label_3 = QtWidgets.QLabel(Dialog)
         self.label_3.setGeometry(QtCore.QRect(560, 80, 31, 21))  # "Q"

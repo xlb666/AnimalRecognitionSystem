@@ -10,6 +10,7 @@ class MainGUI(QtWidgets.QWidget, Ui_Form):
 
     def __init__(self):  # 初始化
         super(MainGUI, self).__init__()
+        self.TResult = [""]
         self.setupUi(self)
         self.__read_file__()
         slm = QStringListModel()
@@ -38,29 +39,87 @@ class MainGUI(QtWidgets.QWidget, Ui_Form):
                     break
                 self.__Q__.append(lines)
 
-    def start(self):  # 开始推理
-        str = self.fact.toPlainText().split('\n')
-        self.__DB__ = str
-        self.__read_file__()
-        self.procedure.setText("识别开始：\n")
-        self.procedure.append('正向推理:\n')
-        self.inference()
-        self.procedure.append('\n识别结束')
-        self.result.setText(self.__result__)
-
-    def is_include_in_DB(self, p):  # 判断是否存在这个条件p
+    def is_include_in_DB(self, p):  # 判断是否存在这个条件
         for i in p:
             if i not in self.__DB__:
                 return False
         return True
 
-    def inference(self):  # 推理识别
+    def AppendInDB(self, x):
+        flag = False
+        self.TResult = []
+        for i, q in enumerate(self.__Q__):  # 遍历Q文件
+            if q == x:
+                for slist in self.__P__[i]:
+                    if slist not in self.__DB__:
+                        self.__DB__.append(slist)  # 对应下标即对应结果， 将所得的新的推论作为前提放入。
+                        self.TResult.append(slist)  # 存储结果
+                flag = True
+        return flag
+
+    def BackwardInDB(self):
+        flag = False
+        for i, q in enumerate(self.__DB__):  # 遍历
+            if self.AppendInDB(q):
+                self.__DB__.pop(i)
+                ans = q + ' -> '
+                for y in self.TResult:
+                    ans += ' ' + y
+                self.procedure.append(' %s' % ans)
+                print(self.__DB__)
+                flag = True
+        return flag
+
+    def ForwardReasoning(self):  # 正向推理
+        slm = QStringListModel()
+        self.__s__ = set()  # 初始化
+        for plist in self.__P__:  # 读取P文件
+            for p in plist:
+                self.__s__.add(p)
+        self.__s__ = list(self.__s__)  # 写入s中
+        slm.setStringList(self.__s__)  # 放入slm中
+        self.listView.setModel(slm)
+        str = self.fact.toPlainText().split('\n')  # 读取选中内容
+        self.__DB__ = str
+        self.__read_file__()
+        self.procedure.setText("识别开始：\n")
+        self.procedure.append('正向推理:\n')
         self.__result__ = '无法识别'
         for i, p in enumerate(self.__P__):
             if self.is_include_in_DB(p):
-                self.__DB__.append(self.__Q__[i])  # 对应下标即对应结果，输入即可
-                self.__result__ = self.__Q__[i]
-                self.procedure.append('%s -> %s' % (p, self.__Q__[i]))
+                self.__DB__.append(self.__Q__[i])  # 对应下标即对应结果， 将所得的新的推论作为前提放入。
+                self.__result__ = self.__Q__[i]  # 存储当前所得结果
+                self.procedure.append('%s -> %s\n' % (p, self.__Q__[i]))
+        self.procedure.append('\n识别结束------------\n')
+        self.procedure.append('识别结果：\n\n%s' % self.__result__)
+
+    def BackwardReasoning(self):  # 反向推理
+        slm = QStringListModel()
+        self.__s__ = set()  # 初始化
+        for q in self.__Q__:  # 读取Q文件
+            self.__s__.add(q)
+        self.__s__ = list(self.__s__)  # 写入s中
+        slm.setStringList(self.__s__)  # 放入slm中
+        self.listView.setModel(slm)
+        str = self.fact.toPlainText().split('\n')  # 读取选中内容
+        if len(str) > 1:
+            self.procedure.setText("识别开始：\n")
+            self.procedure.append('反向推理:\n')
+            self.procedure.append('识别结果：\n\n 无法识别')
+            return
+        self.__DB__ = str  # 保存选中内容
+        self.__read_file__()
+        self.procedure.setText("识别开始：\n")
+        self.procedure.append('反向推理:\n')
+        while True:
+            x = self.BackwardInDB()
+            if not x:
+                break
+        res = ''
+        for db in self.__DB__:
+            res += ' ' + db
+        self.procedure.append('\n识别结束------------\n')
+        self.procedure.append('识别结果：\n\n%s' % res)
 
     def add(self):
         pass
